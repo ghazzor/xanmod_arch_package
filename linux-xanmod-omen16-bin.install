@@ -1,0 +1,19 @@
+post_install() {
+    KERNEL_VERSION=$(basename /usr/lib/modules/*xanmod1)
+
+    echo ">>> Generating initramfs for kernel: $KERNEL_VERSION"
+    mkinitcpio -k "$KERNEL_VERSION" -g "/boot/initramfs-$KERNEL_VERSION.img"
+
+    echo ">>> Updating GRUB configuration"
+    grub-mkconfig -o /boot/grub/grub.cfg
+}
+
+post_upgrade() {
+    post_install
+}
+
+post_remove() {
+    echo ">>> Removing initramfs and updating GRUB..."
+    rm -f /boot/initramfs-*xanmod1.img
+    grub-mkconfig -o /boot/grub/grub.cfg
+}
