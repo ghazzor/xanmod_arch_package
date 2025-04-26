@@ -9,8 +9,8 @@ license=('GPL2')
 depends=('coreutils' 'kmod' 'mkinitcpio')
 optdepends=('linux-firmware: firmware for drivers'
             'grub: bootloader integration')
-touch linux-xanmod-omen16-bin.install
-install=linux-xanmod-omen16-bin.install
+touch xanmod.install
+install=xanmod.install
 kernel_src_dir=linux
 
 package() {
@@ -18,7 +18,7 @@ package() {
   mkdir -p "${pkgdir}/usr/"
   cp -r "tar-install/lib/" "${pkgdir}/usr/"
   export kver=$(basename ${pkgdir}/usr/lib/modules/*xanmod1)
-  cat << EOF > ../linux-xanmod-omen16-bin.install
+  cat << EOF > ../xanmod.install
 post_install() {
   echo ">>> Generating initramfs for kernel: $KERNEL_VERSION"
   mkinitcpio -k $kver -g "/boot/initramfs-$kver.img"
